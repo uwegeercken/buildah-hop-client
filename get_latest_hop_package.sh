@@ -11,19 +11,21 @@ script_dir="$(dirname "$(readlink -f "$0")")"
 package_xml=latest_hop_package.xml
 url="https://artifactory.project-hop.org/artifactory/hop-snapshots-local/org/hop/hop-assemblies-client/0.20-SNAPSHOT/"
 
-echo "[INFO] running process for project-hop zip file download ..."
+echo "[INFO] running process to get project-hop package ..."
 
 echo "[INFO] getting maven metadata from: ${url}"
 curl -s -o "${package_xml}" https://artifactory.project-hop.org/artifactory/hop-snapshots-local/org/hop/hop-assemblies-client/0.20-SNAPSHOT/maven-metadata.xml
 
 # finding the version in the maven xml file
 version_xml=$(xmllint --xpath '//snapshotVersion/extension[text()="zip"]/../value' "${package_xml}")
-# strippinf the tags
+# stripping the tags
 version=$(echo $version_xml | sed 's/<value>//' | sed 's/<\/value>//')
+export HOP_LATEST_VERSION=${version}
+
 # construct full zip file name
 zipfile_name="hop-assemblies-client-${version}.zip"
 
-# download and unzip file if not already done for the version
+# download and unzip file if not already done for the latest version
 if [ ! -f "${zipfile_name}" ]
 then
 	echo "[INFO] downloading: ${zipfile_name}"
@@ -38,5 +40,7 @@ else
 	echo "[INFO] zip file already exists: ${zipfile_name}"
 fi
 
-echo "[INFO] cleanup ..."
-rm "${script_dir}/${package_xml}"
+echo "[INFO] removing maven metadata file"
+rm "${package_xml}"
+echo "[INFO] downloaded zip file"
+rm "${zipfile_name}"
