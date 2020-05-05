@@ -12,6 +12,6 @@ The entrypoint.sh and generate_runconfig.sh scripts are used inside the containe
 
 The get_latest_hop_package.sh script downloads the maven metadata, retrieves the metadata and then downloads the latest project-hop package from the project-hop website.
 
-The images are build using "buildah" - an alternative and modern way of creating OCI compliant images. These images are compatible with Docker. The image can be downloaded here: https://hub.docker.com/r/uwegeercken/hop
+The images are build with the buildah_hop.sh script and using "buildah" - an alternative and modern way of creating OCI compliant images. These images are compatible with Docker. The image can be downloaded here: https://hub.docker.com/r/uwegeercken/hop
 
 last update: uwe.geercken@web.de - 2020-05-05
