@@ -2,6 +2,9 @@
 
 script_dir="$(dirname "$(readlink -f "$0")")"
 
+# where to push the resulting image
+push_destination=${1:-dockerhub}
+
 # name of the script to download the latest hop hop_package_folder
 hop_download_script="get_latest_hop_package.sh"
 
@@ -21,7 +24,7 @@ image_registry="silent1:8083"
 image_registry_group="silent1:8082"
 image_registry_user="admin"
 
-# docker hub
+# docker hub user
 image_registry_docker="docker.io/uwegeercken"
 
 # name of working container
@@ -35,7 +38,7 @@ application_folder_root="/opt/hop"
 tools_folder_root="/opt/simplereplacer"
 
 # start of build
-echo "[INFO] start of image build process ..."
+echo "[INFO] start of image build and push process ..."
 
 echo "[INFO] running script to get latest hop package: ${hop_download_script}"
 source "${script_dir}/${hop_download_script}"
@@ -47,6 +50,7 @@ then
 fi
 
 # image version is the same as the downloaded hop package version
+# and is determined by the hop download script
 image_version="${HOP_LATEST_VERSION}"
 
 # tags for the image for local artifactory
@@ -106,9 +110,8 @@ buildah rm $container
 echo "[INFO] tagging image: ${image_tag}"
 buildah tag  "${image_name}:${image_version}" "${image_tag}" "${image_tag_latest}"
 
-
-# push version and push latest to artifactory
-if [ ! -z ${PUSH_LOCAL} ]
+# push version and push latest to local artifactory
+if [ "${push_destination}" = "local" ]
 then
 	# check if variable for local registry is defined
 	if [ -z "${image_registry_password}" ];
@@ -116,7 +119,6 @@ then
 		echo "error: variable [image_registry_password] is undefined"
 		exit 1
 	fi
-
 	# login to local artifactory
 	echo "[INFO] login to registry: ${image_registry}"
 	buildah login -u "${image_registry_user}" -p ${image_registry_password} "${image_registry}"
@@ -125,7 +127,6 @@ then
 	buildah push --tls-verify=false "${image_tag}" "docker://${image_tag}"
 	echo "[INFO] pushing image to local artifactory: ${image_tag_latest}"
 	buildah push --tls-verify=false "${image_tag}" "docker://${image_tag_latest}"
-
 else
 	# push version and push latest to docker hub
 	echo "[INFO] pushing image to docker hub: ${image_dockerhub_tag}"
@@ -133,5 +134,6 @@ else
 	echo "[INFO] pushing image to docker hub: ${image_dockerhub_tag_latest}"
 	buildah push --tls-verify=false "${image_tag}" "docker://${image_dockerhub_tag_latest}"
 fi
+
 echo "[INFO] removing hop package folder and files: ${hop_package_folder}"
-echo "[INFO] end of image build process ..."
+echo "[INFO] end of image build and push process ..."
