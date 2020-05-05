@@ -9,12 +9,17 @@ fi
 
 script_dir="$(dirname "$(readlink -f "$0")")"
 
+# name of the script to download the latest hop hop_package_folder
+hop_download_script="get_latest_hop_package.sh"
+
+# folder where the hop package files are located
+hop_package_folder="hop"
+
 # base image
 image_base=openjdk:8
 
-# new image
+# image details
 image_name="hop"
-image_version="0.1"
 image_format="docker"
 image_author="uwe.geercken@web.de"
 
@@ -30,14 +35,19 @@ working_container="hop-working-container"
 # simplereplacer tool for merging variables with template
 lib_simplereplacer="simplereplacer-0.0.1-SNAPSHOT.jar"
 
-# folder where the hop package files are located
-hop_package_folder="hop"
-
 # variables for image
 application_folder_root="/opt/hop"
 tools_folder_root="/opt/simplereplacer"
 
 # start of build
+echo "[INFO] start of image build process ..."
+
+echo "[INFO] running script to get latest hop package: ${hop_download_script}"
+"${script_dir}/${hop_download_script}"
+
+# image version is determined on download of hop package
+image_version="${HOP_LATEST_VERSION}:-unversioned"
+
 echo "[INFO] building image: ${image_tag}"
 container=$(buildah --name "${working_container}" from ${image_registry_group}/${image_base})
 
@@ -90,5 +100,7 @@ echo "[INFO] pushing image: ${image_tag}"
 buildah push --tls-verify=false "${image_tag}" "docker://${image_tag}"
 echo "[INFO] pushing image: ${image_tag_latest}"
 buildah push --tls-verify=false "${image_tag}" "docker://${image_tag_latest}"
-
 echo "[INFO] build complete: ${image_tag}"
+
+echo "[INFO] removing hop package folder and files: ${hop_package_folder}"
+echo "[INFO] end of image build process ..."
