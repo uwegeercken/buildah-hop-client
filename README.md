@@ -8,5 +8,9 @@ Hop has a command line client to run workflows and pipelines (forming ETL proces
 - build a OCI compliant image from which containers can be run
 - push the image to a private or public registry (docker hub)
 
+The images are build using "buildah" - an alternative and modern way of creating OCI compliant images. These images are compatible with docker.
 
-last update: uwe geercken - 2020-05-05
+The image can be downloaded here: https://hub.docker.com/r/uwegeercken/hop
+
+
+last update: uwe.geercken@web.de - 2020-05-05
