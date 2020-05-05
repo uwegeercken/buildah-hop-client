@@ -26,8 +26,6 @@ image_author="uwe.geercken@web.de"
 image_registry="silent1:8083"
 image_registry_group="silent1:8082"
 image_registry_user="admin"
-image_tag="${image_registry}/${image_name}:${image_version}"
-image_tag_latest="${image_registry}/${image_name}:latest"
 
 # name of working container
 working_container="hop-working-container"
@@ -43,10 +41,20 @@ tools_folder_root="/opt/simplereplacer"
 echo "[INFO] start of image build process ..."
 
 echo "[INFO] running script to get latest hop package: ${hop_download_script}"
-"${script_dir}/${hop_download_script}"
+source "${script_dir}/${hop_download_script}"
 
-# image version is determined on download of hop package
-image_version="${HOP_LATEST_VERSION}:-unversioned"
+if [ -z "${HOP_LATEST_VERSION}" ];
+then
+	echo "error: variable [HOP_LATEST_VERSION] is undefined"
+	exit 1
+fi
+
+# image version is the same as the downloaded hop package version
+image_version="${HOP_LATEST_VERSION}"
+
+# tags for the image
+image_tag="${image_registry}/${image_name}:${image_version}"
+image_tag_latest="${image_registry}/${image_name}:latest"
 
 echo "[INFO] building image: ${image_tag}"
 container=$(buildah --name "${working_container}" from ${image_registry_group}/${image_base})
@@ -54,18 +62,22 @@ container=$(buildah --name "${working_container}" from ${image_registry_group}/$
 # create application directories
 buildah run $container mkdir -p "${application_folder_root}"
 buildah run $container mkdir -p "${application_folder_root}/logs"
-buildah run $container mkdir -p "/root/.hop/metastore/hop/Pipeline Run Configuration"
+buildah run $container mkdir -p "/root/.hop/metastore"
 buildah run $container touch "/root/.hop/hop.properties"
 buildah run $container mkdir -p "${tools_folder_root}"
 buildah run $container mkdir -p "${tools_folder_root}/jar"
 
 # copy required files
+buildah copy $container "${hop_package_folder}/config" "${application_folder_root}/config"
 buildah copy $container "${hop_package_folder}/lib" "${application_folder_root}/lib"
 buildah copy $container "${hop_package_folder}/libswt" "${application_folder_root}/libswt"
 buildah copy $container "${hop_package_folder}/plugins" "${application_folder_root}/plugins"
 buildah copy $container "${hop_package_folder}/hop-run.sh" "${application_folder_root}"
 buildah copy $container "${hop_package_folder}/LICENSE.txt" /
 buildah copy $container entrypoint.sh /
+
+# metastore folder is where the run config will be stored
+buildah copy $container "metastore" "/root/.hop/metastore"
 
 # simple replacer tool
 buildah copy $container simplereplacer/jar "${tools_folder_root}/jar"

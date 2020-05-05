@@ -11,8 +11,6 @@ script_dir="$(dirname "$(readlink -f "$0")")"
 package_xml=latest_hop_package.xml
 url="https://artifactory.project-hop.org/artifactory/hop-snapshots-local/org/hop/hop-assemblies-client/0.20-SNAPSHOT/"
 
-echo "[INFO] running process to get project-hop package ..."
-
 echo "[INFO] getting maven metadata from: ${url}"
 curl -s -o "${package_xml}" https://artifactory.project-hop.org/artifactory/hop-snapshots-local/org/hop/hop-assemblies-client/0.20-SNAPSHOT/maven-metadata.xml
 
