@@ -136,4 +136,6 @@ else
 fi
 
 echo "[INFO] removing hop package folder and files: ${hop_package_folder}"
+rm -rf "${script_dir}/${hop_package_folder}"
+
 echo "[INFO] end of image build and push process ..."
