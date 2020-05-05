@@ -11,7 +11,8 @@
 template_folder="${TOOLS_FOLDER}/template"
 template_name="default.xml.template"
 
-# the name of the object to use inside the velocity template
+# the name of the object to use inside the velocity template.
+# example placeholder in the template: environment.HOP_LEVEL=Basic
 key="environment"
 
 # name of the output file of the merge of the environment variables

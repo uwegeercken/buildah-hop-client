@@ -40,5 +40,5 @@ fi
 
 echo "[INFO] removing maven metadata file"
 rm "${package_xml}"
-echo "[INFO] rm downloaded zip file"
+echo "[INFO] removing downloaded zip file"
 rm "${zipfile_name}"

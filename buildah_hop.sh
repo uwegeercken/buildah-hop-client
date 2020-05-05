@@ -3,6 +3,7 @@
 script_dir="$(dirname "$(readlink -f "$0")")"
 
 # where to push the resulting image
+# values: dockerhub or local. default is dockerhub
 push_destination=${1:-dockerhub}
 
 # name of the script to download the latest hop hop_package_folder
@@ -30,10 +31,10 @@ image_registry_docker="docker.io/uwegeercken"
 # name of working container
 working_container="hop-working-container"
 
-# simplereplacer tool for merging variables with template
+# simplereplacer tool for merging environment variables with template
 lib_simplereplacer="simplereplacer-0.0.1-SNAPSHOT.jar"
 
-# variables for image
+# variables for the image itself
 application_folder_root="/opt/hop"
 tools_folder_root="/opt/simplereplacer"
 
@@ -43,6 +44,7 @@ echo "[INFO] start of image build and push process ..."
 echo "[INFO] running script to get latest hop package: ${hop_download_script}"
 source "${script_dir}/${hop_download_script}"
 
+# if we have no latest version we abort here
 if [ -z "${HOP_LATEST_VERSION}" ];
 then
 	echo "error: variable [HOP_LATEST_VERSION] is undefined"
