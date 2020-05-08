@@ -1,5 +1,6 @@
 
 <h2>Image for running the project-hop command line client</h2>
+<h3>Attention: currently under development. A lot of things do not work yet.</h3>
 <p>Run a hop workflow or pipeline using the Hop command line client. <a href="http://www.project-hop.org/">Read more on Hop</a>.</p>
 <p>On start of the container the environment variables will be processed and a default run configuration and a default environment will be created using either the defaults or the variables specified. The hop file from the volume mount is then run using the hop-run.sh command line script. Once the Hop workflow or pipeline finishes, the container exits.</p>
 <p>The default run configuration and environment configuration can be replaced by providing the config in the folder that is mounted and setting the variables HOP_CONFIG_DIRECTORY and HOP_ENVIRONMENT_HOME_FOLDER to the config directory in the volume mount.
