@@ -71,6 +71,7 @@ buildah run $container mkdir -p "${application_folder_root}"
 buildah run $container mkdir -p "${application_folder_root}/logs"
 buildah run $container mkdir -p "${application_folder_root}/config/metastore"
 buildah run $container mkdir -p "${application_folder_root}/config/environments"
+buildah run $container mkdir -p "${application_folder_root}/lib/jdbc"
 buildah run $container mkdir -p "${tools_folder_root}"
 
 # copy required files
@@ -78,6 +79,7 @@ buildah copy $container "${hop_package_folder}/config" "${application_folder_roo
 buildah copy $container "${hop_package_folder}/lib" "${application_folder_root}/lib"
 buildah copy $container "${hop_package_folder}/libswt" "${application_folder_root}/libswt"
 buildah copy $container "${hop_package_folder}/plugins" "${application_folder_root}/plugins"
+
 buildah copy $container "${hop_package_folder}/hop-run.sh" "${application_folder_root}"
 buildah copy $container "${hop_package_folder}/hop-conf.sh" "${application_folder_root}"
 buildah copy $container "${hop_package_folder}/LICENSE.txt" /
@@ -87,6 +89,8 @@ buildah copy $container entrypoint.sh /
 buildah copy $container "config/metastore" "${application_folder_root}/config/metastore"
 # environments folder is where the environment config is stored
 buildah copy $container "config/environments" "${application_folder_root}/config/environments"
+# copy jdbc drivers to the lib jdbc folder
+buildah copy $container "lib/jdbc" "${application_folder_root}/lib"
 
 # simple replacer tool
 buildah copy $container simplereplacer/jar "${tools_folder_root}/jar"
