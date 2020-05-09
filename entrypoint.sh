@@ -5,7 +5,7 @@ LEVEL=${HOP_LEVEL:-Basic}
 PARAMETERS="${HOP_PARAMETERS}"
 SYSTEM_PROPERTIES="${HOP_SYSTEM_PROPERTIES}"
 RUNCONFIG=${HOP_RUNCONFIG:-default}
-ENVIRONMENT=${HOP_ENVIRONMENT}
+ENVIRONMENT=${HOP_ENVIRONMENT:-default}
 PIPELINE=${HOP_PIPELINE}
 WORKFLOW=${HOP_WORKFLOW}
 
@@ -14,7 +14,11 @@ run_hop_script="${BASE_FOLDER}/hop-run.sh"
 
 # script to create a default run config using an Apache Velocity
 # template and environment variables
-run_simplereplacer_script="/generate_runconfig.sh"
+runconfig_script="/generate_runconfig.sh"
+
+# script to create a default environment config using an Apache Velocity
+# template and environment variables
+environment_script="/generate_environment.sh"
 
 # arguments array to construct arguments for the hop-run.sh script
 arguments=(${arguments[@]} "--level=${LEVEL}")
@@ -48,8 +52,11 @@ if [ -n "$FILE" ]; then
     arguments=(${arguments[@]} "--workflow")
   fi
 
-  echo "running script to create run configuratin: ${run_simplereplacer_script}"
-  ${run_simplereplacer_script}
+  echo "running script to create run configuratin: ${runconfig_script}"
+  ${runconfig_script}
+
+  echo "running script to create environment configuratin: ${environment_script}"
+  ${environment_script}
 
   echo "running script: ${run_hop_script} ${arguments[@]}"
   ${run_hop_script} "${arguments[@]}"

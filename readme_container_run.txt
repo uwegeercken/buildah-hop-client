@@ -1,7 +1,9 @@
 
 <h2>Image for running the project-hop command line client</h2>
+<h3>Attention: currently under development. A lot of things do not work yet.</h3>
 <p>Run a hop workflow or pipeline using the Hop command line client. <a href="http://www.project-hop.org/">Read more on Hop</a>.</p>
-<p>On start of the container the environment variables will be processed and the run configuration will be created using either the defaults or the variables specified. The hop file from the volume mount is then run using the hop-run.sh command line script. Once the Hop workflow or pipeline finishes, the container exits.</p>
+<p>On start of the container the environment variables will be processed and a default run configuration and a default environment will be created using either the defaults or the variables specified. The hop file from the volume mount is then run using the hop-run.sh command line script. Once the Hop workflow or pipeline finishes, the container exits.</p>
+<p>The default run configuration and environment configuration can be replaced by providing the config in the folder that is mounted and setting the variables HOP_CONFIG_DIRECTORY and HOP_ENVIRONMENT_HOME_FOLDER to the config directory in the volume mount.
 <h3>Folders and files</h3>
 <h4>Folders</h4>
 <table width="100%">
@@ -23,6 +25,10 @@
 	<tr>
 		<td width="30%">/generate_runconfig.sh</td><td width="70%">called by entrypoint script. script to process runconfig variables and merge them with a template to create a runconfig file</td>
 	<tr>
+	<tr>
+		<td width="30%">/generate_environment.sh</td><td width="70%">called by entrypoint script. script to process environment variables and merge them with a template to create an environment file</td>
+	<tr>
+
 </table>
 
 <h3>Environment variables</h3>
@@ -43,7 +49,7 @@
 		<td width="10%">HOP_SYSTEM_PROPERTIES</td><td width="40%">Optional. System properties. Key/value pairs for the hop process. Separate multiple properties with a comma.</td><td width="25%">None</td><td width="25%">HOP_SYSTEM_PROPERTIES=myprop=123,yourprop=ABC</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_RUNCONFIG</td><td width="40%">Optional. Name of the run configuration. Currently there is only one configuration (named &quot;default&quot;). Adjust the details for this configuration using the HOP_RUNCONFIG_* variables</td><td width="25%">None</td><td width="25%">HOP_RUNCONFIG=default</td>
+		<td width="10%">HOP_RUNCONFIG</td><td width="40%">Optional. Run configuration to use. Currently there is only one configuration (named &quot;default&quot;). Adjust the details for this configuration using the HOP_RUNCONFIG_* variables</td><td width="25%">None</td><td width="25%">HOP_RUNCONFIG=default</td>
 	</tr>
 	<tr>
 		<td width="10%">HOP_RUNCONFIG_FEEDBACK_SIZE</td><td width="40%">Optional. Feedback size.</td><td width="25%">50000</td><td width="25%">HOP_RUNCONFIG_FEEDBACK_SIZE=10000</td>
@@ -64,7 +70,34 @@
 		<td width="10%">HOP_RUNCONFIG_TOPO_SORT</td><td width="40%">Optional. Topo sort.</td><td width="25%">N</td><td width="25%">HOP_RUNCONFIG_TOPO_SORT=N</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_ENVIRONMENT</td><td width="40%">Optional. Environment to use.</td><td width="25%">None</td><td width="25%"></td>
+		<td width="10%">HOP_ENVIRONMENT</td><td width="40%">Optional. Environment to use. Currently there is only one configuration (named &quot;default&quot;). Adjust the details for this configuration using the HOP_ENVIRONMENT_* variables</td><td width="25%">default</td><td width="25%">HOP_ENVIRONMENT=default</td>
+	</tr>
+	<tr>
+		<td width="10%">HOP_ENVIRONMENT_HOME_FOLDER</td><td width="40%">Optional. Path to the environment home folder.</td><td width="25%">/opt/hop/config</td><td width="25%">HOP_ENVIRONMENT_HOME_FOLDER=/opt/hop/config</td>
+	</tr>
+	<tr>
+		<td width="10%">HOP_ENVIRONMENT_ID</td><td width="40%">Optional. ID of the environment</td><td width="25%">default</td><td width="25%">HOP_ENVIRONMENT_ID=default</td>
+	</tr>
+	<tr>
+		<td width="10%">HOP_ENVIRONMENT_DESCRIPTION</td><td width="40%">Optional. Description for the environment</td><td width="25%">None</td><td width="25%"None</td>
+	</tr>
+	<tr>
+		<td width="10%">HOP_ENVIRONMENT_PROJECT</td><td width="40%">Optional. Project for the environment</td><td width="25%">None</td><td width="25%"None</td>
+	</tr>
+	<tr>
+		<td width="10%">HOP_ENVIRONMENT_COMPANY</td><td width="40%">Optional. Company for the environment</td><td width="25%">None</td><td width="25%"None</td>
+	</tr>
+	<tr>
+		<td width="10%">HOP_ENVIRONMENT_DEPARTMENT</td><td width="40%">Optional. Department for the environment</td><td width="25%">None</td><td width="25%"None</td>
+	</tr>
+	<tr>
+		<td width="10%">HOP_ENVIRONMENT_VERSION</td><td width="40%">Optional. Environment version for the environment</td><td width="25%">None</td><td width="25%"None</td>
+	</tr>
+	<tr>
+		<td width="10%">HOP_ENVIRONMENT_ENFORCE_EXECUTION_IN_ENVIRONMENT</td><td width="40%">Optional. Environment version for the environment</td><td width="25%">N</td><td width="25%"HOP_ENVIRONMENT_ENFORCE_EXECUTION_IN_ENVIRONMENT=N</td>
+	</tr>
+	<tr>
+		<td width="10%">HOP_ENVIRONMENT_NAME</td><td width="40%">Optional. Environment version for the environment</td><td width="25%">default</td><td width="25%"HOP_ENVIRONMENT_NAME=default</td>
 	</tr>
 	<tr>
 		<td width="10%">HOP_PIPELINE</td><td width="40%">Optional. Force execution of a Hop pipeline (if it cannot be determined by the filename).</td><td width="25%">None</td><td width="25%">HOP_PIPELINE=1</td>

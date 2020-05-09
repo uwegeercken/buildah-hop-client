@@ -8,7 +8,7 @@
 #
 
 # apache velocity folder and name of the template
-template_folder="${TOOLS_FOLDER}/template/runconfig"
+template_folder="${TOOLS_FOLDER}/template/environment"
 template_name="default.xml.template"
 
 # the name of the object to use inside the velocity template.
@@ -17,9 +17,9 @@ key="environment"
 
 # name of the output file of the merge of the environment variables
 # and the template. needs to go to the folder of the user
-outputfile="${BASE_FOLDER}/config/metastore/Pipeline Run Configuration/default.xml"
+outputfile="${BASE_FOLDER}/config/environments/metastore/Hop Environment/default.xml"
 
-mkdir -p "${BASE_FOLDER}/config/metastore/Pipeline Run Configuration"
+mkdir -p "${BASE_FOLDER}/config/environments/metastore/Hop Environment"
 
 # run the template merge process
 java -cp "${TOOLS_FOLDER}/*:${TOOLS_FOLDER}/jar/*" com.datamelt.velocity.SimpleReplacer -f="${template_folder}" -t="${template_name}" -k="${key}" -o="${outputfile}"

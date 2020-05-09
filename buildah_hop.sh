@@ -3,6 +3,7 @@
 script_dir="$(dirname "$(readlink -f "$0")")"
 
 # where to push the resulting image
+# values: dockerhub or local. default is dockerhub
 push_destination=${1:-dockerhub}
 
 # name of the script to download the latest hop hop_package_folder
@@ -30,10 +31,10 @@ image_registry_docker="docker.io/uwegeercken"
 # name of working container
 working_container="hop-working-container"
 
-# simplereplacer tool for merging variables with template
+# simplereplacer tool for merging environment variables with template
 lib_simplereplacer="simplereplacer-0.0.1-SNAPSHOT.jar"
 
-# variables for image
+# variables for the image itself
 application_folder_root="/opt/hop"
 tools_folder_root="/opt/simplereplacer"
 
@@ -43,6 +44,7 @@ echo "[INFO] start of image build and push process ..."
 echo "[INFO] running script to get latest hop package: ${hop_download_script}"
 source "${script_dir}/${hop_download_script}"
 
+# if we have no latest version we abort here
 if [ -z "${HOP_LATEST_VERSION}" ];
 then
 	echo "error: variable [HOP_LATEST_VERSION] is undefined"
@@ -67,10 +69,9 @@ container=$(buildah --name "${working_container}" from ${image_registry_group}/$
 # create application directories
 buildah run $container mkdir -p "${application_folder_root}"
 buildah run $container mkdir -p "${application_folder_root}/logs"
-buildah run $container mkdir -p "/root/.hop/metastore"
-buildah run $container touch "/root/.hop/hop.properties"
+buildah run $container mkdir -p "${application_folder_root}/config/metastore"
+buildah run $container mkdir -p "${application_folder_root}/config/environments"
 buildah run $container mkdir -p "${tools_folder_root}"
-buildah run $container mkdir -p "${tools_folder_root}/jar"
 
 # copy required files
 buildah copy $container "${hop_package_folder}/config" "${application_folder_root}/config"
@@ -78,24 +79,30 @@ buildah copy $container "${hop_package_folder}/lib" "${application_folder_root}/
 buildah copy $container "${hop_package_folder}/libswt" "${application_folder_root}/libswt"
 buildah copy $container "${hop_package_folder}/plugins" "${application_folder_root}/plugins"
 buildah copy $container "${hop_package_folder}/hop-run.sh" "${application_folder_root}"
+buildah copy $container "${hop_package_folder}/hop-conf.sh" "${application_folder_root}"
 buildah copy $container "${hop_package_folder}/LICENSE.txt" /
 buildah copy $container entrypoint.sh /
 
 # metastore folder is where the run config will be stored
-buildah copy $container "metastore" "/root/.hop/metastore"
+buildah copy $container "config/metastore" "${application_folder_root}/config/metastore"
+# environments folder is where the environment config is stored
+buildah copy $container "config/environments" "${application_folder_root}/config/environments"
 
 # simple replacer tool
 buildah copy $container simplereplacer/jar "${tools_folder_root}/jar"
 buildah copy $container simplereplacer/template "${tools_folder_root}/template"
 buildah copy $container simplereplacer/${lib_simplereplacer} "${tools_folder_root}"
 buildah copy $container generate_runconfig.sh /
+buildah copy $container generate_environment.sh /
 
 # configuration
 buildah config --author "${image_author}" $container
 
-# environment variables for kafka properties files
+# environment variables
 buildah config --env BASE_FOLDER="${application_folder_root}" $container
 buildah config --env TOOLS_FOLDER="${tools_folder_root}" $container
+
+# container entrypoint
 buildah config --entrypoint /entrypoint.sh $container
 
 #create image
