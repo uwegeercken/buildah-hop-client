@@ -2,6 +2,9 @@
 # Created by https://www.gitignore.io/api/java,eclipse,intellij+all,maven
 # Edit at https://www.gitignore.io/?templates=java,eclipse,intellij+all,maven
 
+#this project
+latest_downloaded_version.info
+
 ### Eclipse ###
 
 .metadata
