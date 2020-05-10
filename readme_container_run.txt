@@ -40,6 +40,9 @@
 		<td width="10%">HOP_LEVEL</td><td width="40%">Optional. Log level. Possible values: Nothing, Error, Minimal, Basic, Detailed, Debug, RowLevel</td><td width="25%">Basic</td><td width="25%">HOP_LEVEL=Basic</td>
 	</tr>
 	<tr>
+		<td width="10%">HOP_CONFIG_DIRECTORY</td><td width="40%">Optional. Folder where the configuration is located.</td><td width="25%">HOP installation folder</td><td width="25%">HOP_CONFIG_DIRECTORY=/folder1/config</td>
+	</tr>
+	<tr>
 		<td width="10%">HOP_FILE</td><td width="40%">Mandatory. The hop file to run</td><td width="25%">None</td><td width="25%">HOP_FILE=/files/test1.hpl</td>
 	</tr>
 	<tr>
