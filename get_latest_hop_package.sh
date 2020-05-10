@@ -5,15 +5,18 @@
 # - download maven metadata to determine latest version - this will define the folder to download from
 # - download maven metadata from the folder determined above, to detrmine the package version
 # - variable HOP_LATEST_VERSION will be exported
-# - if the same zipfile has not already been downloaded, download and unzip it
+# - variable HOP_LATEST_ZIP will be exported
 # - remove metadata files and zip file
 #
-# uwe geercken - 2020-05-09
+# uwe geercken - 2020-05-10
 #
 
 script_dir="$(dirname "$(readlink -f "$0")")"
 maven_metadata_xml=latest_maven-metadata.xml
 package_xml=latest_hop_package.xml
+latest_version_file=latest_downloaded_version.info
+
+# download url
 url="https://artifactory.project-hop.org/artifactory/hop-snapshots-local/org/hop/hop-assemblies-client"
 
 #echo "[INFO] getting maven metadata from: ${url}"
@@ -40,36 +43,29 @@ export HOP_LATEST_VERSION=${version}
 
 # construct full zip file name
 zipfile_name="hop-assemblies-client-${version}.zip"
+export HOP_LATEST_ZIP=${zipfile_name}
 
 #echo "[INFO] latest hop version zip file: ${zipfile_name}"
 
 # check if we had a previous download
-if [ -f latest_download_version.txt ]
+if [ -f ${latest_version_file} ]
 then
-	previous_download=$(cat latest_download_version.txt)
+	previous_download=$(cat ${latest_version_file})
 fi
 
-# download and unzip file if not already done for the latest version
+# download file if not previously done for the latest version
 if [ "${zipfile_name}" != "${previous_download}" ]
 then
+	# download zip file
 	echo "[INFO] downloading: ${zipfile_name}"
 	curl -s -o ${zipfile_name} ${full_url}/${zipfile_name}
 
-	echo "${zipfile_name}" > latest_download_version.txt
-
-	#echo "[INFO] removing existing folder: ${script_dir}/hop"
-	rm -rf "${script_dir}/hop"
-
-	echo "[INFO] unzipping: ${zipfile_name}"
-	unzip -q ${zipfile_name}
-
-	#echo "[INFO] removing downloaded zip file"
-	rm "${zipfile_name}"
+	# save the latest version info to a file
+	echo "${zipfile_name}" > ${latest_version_file}
 else
-	echo "[INFO] latest version already download: ${zipfile_name}"
+	echo "[INFO] latest version already downloaded: ${zipfile_name}"
 fi
 
 #echo "[INFO] removing maven metadata files"
 rm "${maven_metadata_xml}"
 rm "${package_xml}"
-

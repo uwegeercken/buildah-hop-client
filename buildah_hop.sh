@@ -4,7 +4,7 @@ script_dir="$(dirname "$(readlink -f "$0")")"
 
 # where to push the resulting image
 # values: dockerhub or local. default is dockerhub
-push_destination=${1:-dockerhub}
+push_destination=${1:-local}
 
 # name of the script to download the latest hop hop_package_folder
 hop_download_script="get_latest_hop_package.sh"
@@ -45,11 +45,23 @@ echo "[INFO] running script to get latest hop package: ${hop_download_script}"
 source "${script_dir}/${hop_download_script}"
 
 # if we have no latest version we abort here
-if [ -z "${HOP_LATEST_VERSION}" ];
+if [ -z "${HOP_LATEST_VERSION}" ]
 then
-	echo "error: variable [HOP_LATEST_VERSION] is undefined"
+	echo "[ERROR] variable [HOP_LATEST_VERSION] is undefined"
+	exit 1
+elif [ ! -f "${HOP_LATEST_ZIP}" ]
+then
+	# if the zip file is not available, then it already has been processed
 	exit 1
 fi
+
+# remove old unzipped files if existing
+echo "[INFO] removing previously unzipped files: ${script_dir}/hop"
+rm -rf "${script_dir}/hop"
+
+# unzip latest hop package zip file
+echo "[INFO] unzipping hop package: ${HOP_LATEST_ZIP}"
+unzip -q "${HOP_LATEST_ZIP}"
 
 # image version is the same as the downloaded hop package version
 # and is determined by the hop download script
@@ -122,7 +134,7 @@ echo "[INFO] tagging image: ${image_tag}"
 buildah tag  "${image_name}:${image_version}" "${image_tag}" "${image_tag_latest}"
 
 # push version and push latest to local artifactory
-if [ "${push_destination}" = "local" ]
+if [ "${push_destination}" != "remote" ]
 then
 	# check if variable for local registry is defined
 	if [ -z "${image_registry_password}" ];
@@ -148,5 +160,8 @@ fi
 
 echo "[INFO] removing hop package folder and files: ${hop_package_folder}"
 rm -rf "${script_dir}/${hop_package_folder}"
+
+echo "[INFO] removing hop package zip file: ${HOP_LATEST_ZIP}"
+rm -f "${script_dir}/${HOP_LATEST_ZIP}"
 
 echo "[INFO] end of image build and push process ..."
