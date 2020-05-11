@@ -4,7 +4,8 @@ FILE="${HOP_FILE}"
 LEVEL=${HOP_LEVEL:-Basic}
 PARAMETERS="${HOP_PARAMETERS}"
 SYSTEM_PROPERTIES="${HOP_SYSTEM_PROPERTIES}"
-RUNCONFIG=${HOP_RUNCONFIG:-default}
+PIPELINE_RUNCONFIG=${HOP_PIPELINE_RUNCONFIG:-default}
+WORKFLOW_RUNCONFIG=${HOP_WORKFLOW_RUNCONFIG:-default}
 ENVIRONMENT=${HOP_ENVIRONMENT:-default}
 PIPELINE=${HOP_PIPELINE}
 WORKFLOW=${HOP_WORKFLOW}
@@ -12,9 +13,13 @@ WORKFLOW=${HOP_WORKFLOW}
 # script to run hop
 run_hop_script="${BASE_FOLDER}/hop-run.sh"
 
-# script to create a default run config using an Apache Velocity
+# script to create a default pipeline run config using an Apache Velocity
 # template and environment variables
-runconfig_script="/generate_runconfig.sh"
+pipeline_runconfig_script="/generate_pipeline_runconfig.sh"
+
+# script to create a default workflow run config using an Apache Velocity
+# template and environment variables
+workflow_runconfig_script="/generate_workflow_runconfig.sh"
 
 # script to create a default environment config using an Apache Velocity
 # template and environment variables
@@ -35,10 +40,15 @@ if [ -n "$FILE" ]; then
   if [ -n "$SYSTEM_PROPERTIES" ]; then
     arguments=(${arguments[@]} "--system-properties=${SYSTEM_PROPERTIES}")
   fi
-  # check if runconfig is specified
-  if [ -n "$RUNCONFIG" ]; then
-    arguments=(${arguments[@]} "--runconfig=${RUNCONFIG}")
+
+  # check if pipeline or workflow runconfig is specified
+  if [ -n "$PIPELINE_RUNCONFIG" ]; then
+    arguments=(${arguments[@]} "--runconfig=${PIPELINE_RUNCONFIG}")
+  # else: check if workflow runconfig is specified
+  elif [ -n "$WORKFLOW_RUNCONFIG" ]; then
+    arguments=(${arguments[@]} "--runconfig=${WORKFLOW_RUNCONFIG}")
   fi
+
   # check if environment is specified
   if [ -n "$ENVIRONMENT" ]; then
     arguments=(${arguments[@]} "--environment=${ENVIRONMENT}")
@@ -52,8 +62,11 @@ if [ -n "$FILE" ]; then
     arguments=(${arguments[@]} "--workflow")
   fi
 
-  echo "running script to create run configuratin: ${runconfig_script}"
-  ${runconfig_script}
+  echo "running script to create pipeline run configuratin: ${pipeline_runconfig_script}"
+  ${pipeline_runconfig_script}
+
+  echo "running script to create workflow run configuratin: ${workflow_runconfig_script}"
+  ${workflow_runconfig_script}
 
   echo "running script to create environment configuratin: ${environment_script}"
   ${environment_script}

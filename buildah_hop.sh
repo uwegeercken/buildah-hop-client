@@ -108,7 +108,8 @@ buildah copy $container "lib/jdbc" "${application_folder_root}/lib"
 buildah copy $container simplereplacer/jar "${tools_folder_root}/jar"
 buildah copy $container simplereplacer/template "${tools_folder_root}/template"
 buildah copy $container simplereplacer/${lib_simplereplacer} "${tools_folder_root}"
-buildah copy $container generate_runconfig.sh /
+buildah copy $container generate_pipeline_runconfig.sh /
+buildah copy $container generate_workflow_runconfig.sh /
 buildah copy $container generate_environment.sh /
 
 # configuration

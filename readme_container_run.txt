@@ -52,25 +52,31 @@
 		<td width="10%">HOP_SYSTEM_PROPERTIES</td><td width="40%">Optional. System properties. Key/value pairs for the hop process. Separate multiple properties with a comma.</td><td width="25%">None</td><td width="25%">HOP_SYSTEM_PROPERTIES=myprop=123,yourprop=ABC</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_RUNCONFIG</td><td width="40%">Optional. Run configuration to use. Currently there is only one configuration (named &quot;default&quot;). Adjust the details for this configuration using the HOP_RUNCONFIG_* variables</td><td width="25%">None</td><td width="25%">HOP_RUNCONFIG=default</td>
+		<td width="10%">HOP_PIPELINE_RUNCONFIG</td><td width="40%">Optional. Run configuration to use. Currently there is only one configuration (named &quot;default&quot;). Adjust the details for this configuration using the HOP_PIPELINE_RUNCONFIG_* variables</td><td width="25%">None</td><td width="25%">HOP_PIPELINE_RUNCONFIG=default</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_RUNCONFIG_FEEDBACK_SIZE</td><td width="40%">Optional. Feedback size.</td><td width="25%">50000</td><td width="25%">HOP_RUNCONFIG_FEEDBACK_SIZE=10000</td>
+		<td width="10%">HOP_PIPELINE_RUNCONFIG_FEEDBACK_SIZE</td><td width="40%">Optional. Feedback size.</td><td width="25%">50000</td><td width="25%">HOP_PIPELINE_RUNCONFIG_FEEDBACK_SIZE=10000</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_RUNCONFIG_ROWSET_SIZE</td><td width="40%">Optional. Rowset size.</td><td width="25%">10000</td><td width="25%">HOP_RUNCONFIG_ROWSET_SIZE=4000</td>
+		<td width="10%">HOP_PIPELINE_RUNCONFIG_ROWSET_SIZE</td><td width="40%">Optional. Rowset size.</td><td width="25%">10000</td><td width="25%">HOP_PIPELINE_RUNCONFIG_ROWSET_SIZE=4000</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_RUNCONFIG_SAFE_MODE</td><td width="40%">Optional. Safe mode.</td><td width="25%">N</td><td width="25%">HOP_RUNCONFIG_SAFE_MODE=Y</td>
+		<td width="10%">HOP_PIPELINE_RUNCONFIG_SAFE_MODE</td><td width="40%">Optional. Safe mode.</td><td width="25%">N</td><td width="25%">HOP_PIPELINE_RUNCONFIG_SAFE_MODE=Y</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_RUNCONFIG_SHOW FEEDBACK</td><td width="40%">Optional. Show feedback.</td><td width="25%">N</td><td width="25%">HOP_RUNCONFIG_SHOW_FEEDBACK=N</td>
+		<td width="10%">HOP_PIPELINE_RUNCONFIG_SHOW FEEDBACK</td><td width="40%">Optional. Show feedback.</td><td width="25%">N</td><td width="25%">HOP_PIPELINE_RUNCONFIG_SHOW_FEEDBACK=N</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_RUNCONFIG_GATHER_METRICS</td><td width="40%">Optional. Gather metrics.</td><td width="25%">N</td><td width="25%">HOP_RUNCONFIG_GATHER_METRICS=N</td>
+		<td width="10%">HOP_PIPELINE_RUNCONFIG_GATHER_METRICS</td><td width="40%">Optional. Gather metrics.</td><td width="25%">N</td><td width="25%">HOP_PIPELINE_RUNCONFIG_GATHER_METRICS=N</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_RUNCONFIG_TOPO_SORT</td><td width="40%">Optional. Topo sort.</td><td width="25%">N</td><td width="25%">HOP_RUNCONFIG_TOPO_SORT=N</td>
+		<td width="10%">HOP_PIPELINE_RUNCONFIG_TOPO_SORT</td><td width="40%">Optional. Topo sort.</td><td width="25%">N</td><td width="25%">HOP_PIPELINE_RUNCONFIG_TOPO_SORT=N</td>
+	</tr>
+	<tr>
+		<td width="10%">HOP_WORKFLOW_RUNCONFIG</td><td width="40%">Optional. Run configuration to use. Currently there is only one configuration (named &quot;default&quot;). Adjust the details for this configuration using the HOP_WORKFLOW_RUNCONFIG_* variables</td><td width="25%">None</td><td width="25%">HOP_WORKFLOW_RUNCONFIG=default</td>
+	</tr>
+	<tr>
+		<td width="10%">HOP_WORKFLOW_RUNCONFIG_SAFE_MODE</td><td width="40%">Optional. Safe mode.</td><td width="25%">N</td><td width="25%">HOP_WORKFLOW_RUNCONFIG_SAFE_MODE=Y</td>
 	</tr>
 	<tr>
 		<td width="10%">HOP_ENVIRONMENT</td><td width="40%">Optional. Environment to use. Currently there is only one configuration (named &quot;default&quot;). Adjust the details for this configuration using the HOP_ENVIRONMENT_* variables</td><td width="25%">default</td><td width="25%">HOP_ENVIRONMENT=default</td>
