@@ -23,7 +23,10 @@
 		<td width="30%">/entrypoint.sh</td><td width="70%">entrypoint for the container to process variables and run the hop-run.sh script</td>
 	</tr>
 	<tr>
-		<td width="30%">/generate_runconfig.sh</td><td width="70%">called by entrypoint script. script to process runconfig variables and merge them with a template to create a runconfig file</td>
+		<td width="30%">/generate_pipeline_runconfig.sh</td><td width="70%">called by entrypoint script. script to process pipeline run config variables and merge them with a template to create a config file</td>
+	<tr>
+	<tr>
+		<td width="30%">/generate_workflow_runconfig.sh</td><td width="70%">called by entrypoint script. script to process workflow run config variables and merge them with a template to create a config file</td>
 	<tr>
 	<tr>
 		<td width="30%">/generate_environment.sh</td><td width="70%">called by entrypoint script. script to process environment variables and merge them with a template to create an environment file</td>
@@ -103,10 +106,10 @@
 		<td width="10%">HOP_ENVIRONMENT_NAME</td><td width="40%">Optional. Environment version for the environment</td><td width="25%">default</td><td width="25%"HOP_ENVIRONMENT_NAME=default</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_PIPELINE</td><td width="40%">Optional. Force execution of a Hop pipeline (if it cannot be determined by the filename).</td><td width="25%">None</td><td width="25%">HOP_PIPELINE=1</td>
+		<td width="10%">HOP_FORCE_PIPELINE</td><td width="40%">Optional. Force execution of a Hop pipeline (if it cannot be determined by the filename).</td><td width="25%">None</td><td width="25%">HOP_PIPELINE=1</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_WORKFLOW</td><td width="40%">Optional. Force execution of a Hop workflow (if it cannot be determined by the filename).</td><td width="25%">None</td><td width="25%">HOP_WORKFLOW=1</td>
+		<td width="10%">HOP_FORCE_WORKFLOW</td><td width="40%">Optional. Force execution of a Hop workflow (if it cannot be determined by the filename).</td><td width="25%">None</td><td width="25%">HOP_WORKFLOW=1</td>
 	</tr>
 	<tr>
 		<td width="10%">HOP_OPTIONS</td><td width="40%">Optional. HOP additional Java options.</td><td width="25%">-Xmx2048m</td><td width="25%">HOP_OPTIONS=-Xmx1024m</td>
