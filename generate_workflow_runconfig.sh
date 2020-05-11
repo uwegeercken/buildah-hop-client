@@ -17,9 +17,9 @@ key="environment"
 
 # name of the output file of the merge of the environment variables
 # and the template. needs to go to the config directory
-outputfile="${HOP_CONFIG_DIRECTORY}/metastore/Workflow Run Configuration/default.xml"
+outputfile="${BASE_FOLDER}/config/metastore/Workflow Run Configuration/default.xml"
 
-mkdir -p "${HOP_CONFIG_DIRECTORY}/metastore/Workflow Run Configuration"
+mkdir -p "${BASE_FOLDER}/config/metastore/Workflow Run Configuration"
 
 # run the template merge process
 java -cp "${TOOLS_FOLDER}/*:${TOOLS_FOLDER}/jar/*" com.datamelt.velocity.SimpleReplacer -f="${template_folder}" -t="${template_name}" -k="${key}" -o="${outputfile}"
