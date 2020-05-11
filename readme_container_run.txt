@@ -124,6 +124,6 @@
 <p>You can set the environment variables on the command line. like e.g. --env HOP_FILE=/files/test1.hpl. But it is easier to put them in a single file containing all variables (here: hop.env) and reference the file when running the container.</p>
 <p>Note: You must specify the variable: HOP_FILE. The file needs to point to a hop file in the volume mount that is defined with the -v flag.</p>
 <h4>Examples:</h4>
-<p><code>docker run -v ./files:/files:Z --env HOP_FILE=/files/test1.hpl --env HOP_RUNCONFIG=default uwegeercken/hop:latest</code></p>
-<p><code>docker run -v ./files:/somefolder:Z --env HOP_FILE=/somefolder/test1.hpl --env HOP_RUNCONFIG=default --env HOP_PARAMETERS=myparam=123,myparam2=Abc uwegeercken/hop:latest</code></p>
+<p><code>docker run -v ./files:/files:Z --env HOP_FILE=/files/test1.hpl --env HOP_CONFIG_DIRECTORY=/files/config uwegeercken/hop:latest</code></p>
+<p><code>docker run -v ./files:/somefolder:Z --env HOP_FILE=/somefolder/test1.hpl --env HOP_LEVEL=Detailed --env HOP_PARAMETERS=myparam=123,myparam2=Abc uwegeercken/hop:latest</code></p>
 <p><code>docker run -v ./files:/files:Z --env-file hop.env uwegeercken/hop:latest</code></p>
