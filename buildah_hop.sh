@@ -13,7 +13,7 @@ hop_download_script="get_latest_hop_package.sh"
 hop_package_folder="hop"
 
 # base image
-image_base=openjdk:8
+image_base=openjdk:8-jre-slim
 
 # image details
 image_name="hop"
