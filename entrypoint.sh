@@ -7,10 +7,7 @@ SYSTEM_PROPERTIES="${HOP_SYSTEM_PROPERTIES}"
 ENVIRONMENT=${HOP_ENVIRONMENT:-default}
 FORCE_PIPELINE=${HOP_FORCE_PIPELINE}
 FORCE_WORKFLOW=${HOP_FORCE_WORKFLOW}
-
-# deprecated: we always use the "default" run config if pipeline or workflow
-#PIPELINE_RUNCONFIG=${HOP_PIPELINE_RUNCONFIG:-default}
-#WORKFLOW_RUNCONFIG=${HOP_WORKFLOW_RUNCONFIG:-default}
+RUNCONFIG=${HOP_RUNCONFIG:-default}
 
 # script to run hop
 run_hop_script="${BASE_FOLDER}/hop-run.sh"
@@ -43,37 +40,38 @@ if [ -n "$FILE" ]; then
     arguments=(${arguments[@]} "--system-properties=${SYSTEM_PROPERTIES}")
   fi
 
-  # check if pipeline or workflow runconfig is specified
-  arguments=(${arguments[@]} "--runconfig=default")
+  # check if a runconfig is specified
+  arguments=(${arguments[@]} "--runconfig=${RUNCONFIG}")
 
   # check if environment is specified
   if [ -n "$ENVIRONMENT" ]; then
     arguments=(${arguments[@]} "--environment=${ENVIRONMENT}")
   fi
-  # check if pipeline is specified
+  # check if force pipeline is specified
   if [ -n "$FORCE_PIPELINE" ]; then
     arguments=(${arguments[@]} "--pipeline")
   fi
-  # check if workflow is specified
+  # check if force workflow is specified
   if [ -n "$FORCE_WORKFLOW" ]; then
     arguments=(${arguments[@]} "--workflow")
   fi
 
-  # check if config directory variable is undefined
+  # check if config directory variable is undefined. if so use the
+  # hop base folder variable
   if [ ! -n "${HOP_CONFIG_DIRECTORY}" ]; then
     export HOP_CONFIG_DIRECTORY="${BASE_FOLDER}/config"
   fi
 
-  echo "running script to create pipeline run configuratin: ${pipeline_runconfig_script}"
+  echo "[INFO] running script to create pipeline run configuratin: ${pipeline_runconfig_script}"
   ${pipeline_runconfig_script}
 
-  echo "running script to create workflow run configuratin: ${workflow_runconfig_script}"
+  echo "[INFO] running script to create workflow run configuratin: ${workflow_runconfig_script}"
   ${workflow_runconfig_script}
 
-  echo "running script to create environment configuratin: ${environment_script}"
+  echo "[INFO] running script to create environment configuratin: ${environment_script}"
   ${environment_script}
 
-  echo "running script: ${run_hop_script} ${arguments[@]}"
+  echo "[INFO] running script: ${run_hop_script} ${arguments[@]}"
   ${run_hop_script} "${arguments[@]}"
 
 else
