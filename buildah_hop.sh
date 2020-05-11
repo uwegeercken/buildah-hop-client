@@ -6,27 +6,27 @@ script_dir="$(dirname "$(readlink -f "$0")")"
 # values: remote or local. default is local
 push_destination=${1:-local}
 
-# name of the script to download the latest hop hop_package_folder
+# name of the script to download the latest hop package
 hop_download_script="get_latest_hop_package.sh"
 
-# folder where the hop package files are located
+# local folder where the hop package files are unzipped to
 hop_package_folder="hop"
 
-# base image
+# base image: java jre slim
 image_base=openjdk:8-jre-slim
 
-# image details
+# details for the image to be build
 image_name="hop"
 image_format="docker"
 image_author="uwe.geercken@web.de"
 
-# local artifactory
+# local image registry
 image_registry="silent1:8083"
 image_registry_group="silent1:8082"
 image_registry_user="admin"
 
-# docker hub user
-image_registry_docker="docker.io/uwegeercken"
+# remote image registry
+image_registry_remote="docker.io/uwegeercken"
 
 # name of working container
 working_container="hop-working-container"
@@ -72,8 +72,8 @@ image_tag="${image_registry}/${image_name}:${image_version}"
 image_tag_latest="${image_registry}/${image_name}:latest"
 
 # tags for the image for docker hub
-image_dockerhub_tag="${image_registry_docker}/${image_name}:${image_version}"
-image_dockerhub_tag_latest="${image_registry_docker}/${image_name}:latest"
+image_dockerhub_tag="${image_registry_remote}/${image_name}:${image_version}"
+image_dockerhub_tag_latest="${image_registry_remote}/${image_name}:latest"
 
 echo "[INFO] building image: ${image_tag}"
 container=$(buildah --name "${working_container}" from ${image_registry_group}/${image_base})
