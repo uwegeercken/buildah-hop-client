@@ -3,7 +3,7 @@
 script_dir="$(dirname "$(readlink -f "$0")")"
 
 # where to push the resulting image
-# values: dockerhub or local. default is dockerhub
+# values: remote or local. default is local
 push_destination=${1:-local}
 
 # name of the script to download the latest hop hop_package_folder
