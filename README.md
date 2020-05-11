@@ -10,7 +10,7 @@ Hop has a command line client to run workflows and pipelines (forming ETL proces
 
 The central script is the buildah_hop.sh script. It invokes the get_latest_hop_package.sh script downloads the maven metadata, retrieves the metadata and then downloads the latest project-hop package from the project-hop website. From here the contaimer image is build.
 
-The entrypoint.sh, generate_runconfig.sh and generate_environment.sh scripts are used inside the container to parse environment variables and create a run configuration and environment for the hop-run.sh script. The run configuration and environment file is created using an Apache Velocity template and merging it with the relevant environment variables.
+The entrypoint.sh, generate_runconfig.sh and generate_environment.sh scripts are used inside the container to parse environment variables and create a run configuration and environment for the hop-run.sh script. The run configuration and environment file is created using an Apache Velocity template and merging it with the relevant environment variables. The default run configuration and default environment is used whenver no other config directory folder is specified (HOP_CONFIG_DIRECTORY variable).
 
 The get_latest_hop_package.sh script can also be run on it's own to download the latest hop package. It will be downloaded only if the same version was not already downloaded, so this works well for a CI/CD pipeline.
 
