@@ -4,11 +4,13 @@ FILE="${HOP_FILE}"
 LEVEL=${HOP_LEVEL:-Basic}
 PARAMETERS="${HOP_PARAMETERS}"
 SYSTEM_PROPERTIES="${HOP_SYSTEM_PROPERTIES}"
-PIPELINE_RUNCONFIG=${HOP_PIPELINE_RUNCONFIG:-default}
-WORKFLOW_RUNCONFIG=${HOP_WORKFLOW_RUNCONFIG:-default}
 ENVIRONMENT=${HOP_ENVIRONMENT:-default}
 PIPELINE=${HOP_PIPELINE}
 WORKFLOW=${HOP_WORKFLOW}
+
+# deprecated: we always use the "default" run config if pipeline or workflow
+#PIPELINE_RUNCONFIG=${HOP_PIPELINE_RUNCONFIG:-default}
+#WORKFLOW_RUNCONFIG=${HOP_WORKFLOW_RUNCONFIG:-default}
 
 # script to run hop
 run_hop_script="${BASE_FOLDER}/hop-run.sh"
@@ -42,12 +44,7 @@ if [ -n "$FILE" ]; then
   fi
 
   # check if pipeline or workflow runconfig is specified
-  if [ -n "$PIPELINE_RUNCONFIG" ]; then
-    arguments=(${arguments[@]} "--runconfig=${PIPELINE_RUNCONFIG}")
-  # else: check if workflow runconfig is specified
-  elif [ -n "$WORKFLOW_RUNCONFIG" ]; then
-    arguments=(${arguments[@]} "--runconfig=${WORKFLOW_RUNCONFIG}")
-  fi
+  arguments=(${arguments[@]} "--runconfig=default")
 
   # check if environment is specified
   if [ -n "$ENVIRONMENT" ]; then
@@ -60,6 +57,11 @@ if [ -n "$FILE" ]; then
   # check if workflow is specified
   if [ -n "$WORKFLOW" ]; then
     arguments=(${arguments[@]} "--workflow")
+  fi
+
+  # check if config directory variable is undefined
+  if [ ! -n "${HOP_CONFIG_DIRECTORY}" ]; then
+    export HOP_CONFIG_DIRECTORY="${BASE_FOLDER}/config"
   fi
 
   echo "running script to create pipeline run configuratin: ${pipeline_runconfig_script}"
