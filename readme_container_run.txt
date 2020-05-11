@@ -55,6 +55,9 @@
 		<td width="10%">HOP_SYSTEM_PROPERTIES</td><td width="40%">Optional. System properties. Key/value pairs for the hop process. Separate multiple properties with a comma.</td><td width="25%">None</td><td width="25%">HOP_SYSTEM_PROPERTIES=myprop=123,yourprop=ABC</td>
 	</tr>
 	<tr>
+		<td width="10%">HOP_RUNCONFIG</td><td width="40%">Optional. Run config to use. Currently there is only one configuration (named &quot;default&quot;). Adjust the details for this configuration using the HOP_PIPELINE_RUNCONFIG_* or HOP_WORKFLOW_RUNCONFIG_* variables</td><td width="25%">default</td><td width="25%">HOP_RUNCONFIG=default</td>
+	</tr>
+	<tr>
 		<td width="10%">HOP_PIPELINE_RUNCONFIG_FEEDBACK_SIZE</td><td width="40%">Optional. Feedback size.</td><td width="25%">50000</td><td width="25%">HOP_PIPELINE_RUNCONFIG_FEEDBACK_SIZE=10000</td>
 	</tr>
 	<tr>
@@ -82,9 +85,6 @@
 		<td width="10%">HOP_ENVIRONMENT_HOME_FOLDER</td><td width="40%">Optional. Path to the environment home folder.</td><td width="25%">/opt/hop/config</td><td width="25%">HOP_ENVIRONMENT_HOME_FOLDER=/opt/hop/config</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_ENVIRONMENT_ID</td><td width="40%">Optional. ID of the environment</td><td width="25%">default</td><td width="25%">HOP_ENVIRONMENT_ID=default</td>
-	</tr>
-	<tr>
 		<td width="10%">HOP_ENVIRONMENT_DESCRIPTION</td><td width="40%">Optional. Description for the environment</td><td width="25%">None</td><td width="25%"None</td>
 	</tr>
 	<tr>
@@ -103,16 +103,13 @@
 		<td width="10%">HOP_ENVIRONMENT_ENFORCE_EXECUTION_IN_ENVIRONMENT</td><td width="40%">Optional. Environment version for the environment</td><td width="25%">N</td><td width="25%"HOP_ENVIRONMENT_ENFORCE_EXECUTION_IN_ENVIRONMENT=N</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_ENVIRONMENT_NAME</td><td width="40%">Optional. Environment version for the environment</td><td width="25%">default</td><td width="25%"HOP_ENVIRONMENT_NAME=default</td>
+		<td width="10%">HOP_FORCE_PIPELINE</td><td width="40%">Optional. Force execution of a Hop pipeline (if it cannot be determined by the filename).</td><td width="25%">None</td><td width="25%">HOP_FORCE_PIPELINE=1</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_FORCE_PIPELINE</td><td width="40%">Optional. Force execution of a Hop pipeline (if it cannot be determined by the filename).</td><td width="25%">None</td><td width="25%">HOP_PIPELINE=1</td>
+		<td width="10%">HOP_FORCE_WORKFLOW</td><td width="40%">Optional. Force execution of a Hop workflow (if it cannot be determined by the filename).</td><td width="25%">None</td><td width="25%">HOP_FORCE_WORKFLOW=1</td>
 	</tr>
 	<tr>
-		<td width="10%">HOP_FORCE_WORKFLOW</td><td width="40%">Optional. Force execution of a Hop workflow (if it cannot be determined by the filename).</td><td width="25%">None</td><td width="25%">HOP_WORKFLOW=1</td>
-	</tr>
-	<tr>
-		<td width="10%">HOP_OPTIONS</td><td width="40%">Optional. HOP additional Java options.</td><td width="25%">-Xmx2048m</td><td width="25%">HOP_OPTIONS=-Xmx1024m</td>
+		<td width="10%">HOP_OPTIONS</td><td width="40%">Optional. HOP additional Java options - e.g. variable, memory settings, etc.</td><td width="25%">-Xmx2048m</td><td width="25%">HOP_OPTIONS=-Xmx1024m</td>
 	</tr>
 
 </table>

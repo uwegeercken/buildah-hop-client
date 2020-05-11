@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <element>
-  <id>default</id>
+  <id>${environment.HOP_RUNCONFIG|'default'}</id>
   <value/>
   <type>String</type>
   <children>
@@ -66,7 +66,7 @@
       <type>String</type>
     </child>
   </children>
-  <name>default</name>
+  <name>${environment.HOP_RUNCONFIG|'default'}</name>
   <security>
     <owner/>
     <owner-permissions-list/>
