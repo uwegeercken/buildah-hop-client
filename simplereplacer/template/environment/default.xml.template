@@ -1,13 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <element>
-  <id>${environment.HOP_ENVIRONMENT_ID|'default'}</id>
+  <id>${environment.HOP_ENVIRONMENT|'default'}</id>
   <value/>
   <type>String</type>
   <children>
     <child>
       <id>variables</id>
-      <value/>
+      <value>org.apache.hop.env.environment.EnvironmentVariable</value>
       <type>String</type>
+      <children>
+      #foreach( $var in ${environment.HOP_ENVIRONMENT_VARIABLES.split(",")} )
+        <child>
+          <id>${counter|0}</id>
+          <value/>
+          <type>String</type>
+          <children>
+            <child>
+              <id>name</id>
+              <value>${var.split("=")[0]}</value>
+              <type>String</type>
+            </child>
+            <child>
+              <id>description</id>
+              <value/>
+              <type>String</type>
+            </child>
+            <child>
+              <id>value</id>
+              <value>${var.split("=")[1]}</value>
+              <type>String</type>
+            </child>
+          </children>
+        </child>
+        #set($counter=${counter|0}+1)
+      #end
+      <children>
     </child>
     <child>
       <id>metaStoreBaseFolder</id>
@@ -60,7 +87,7 @@
       <type>String</type>
     </child>
   </children>
-  <name>${environment.HOP_ENVIRONMENT_NAME|'default'}</name>
+  <name>${environment.HOP_ENVIRONMENT|'default'}</name>
   <security>
     <owner/>
     <owner-permissions-list/>
