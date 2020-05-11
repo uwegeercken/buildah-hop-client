@@ -5,8 +5,8 @@ LEVEL=${HOP_LEVEL:-Basic}
 PARAMETERS="${HOP_PARAMETERS}"
 SYSTEM_PROPERTIES="${HOP_SYSTEM_PROPERTIES}"
 ENVIRONMENT=${HOP_ENVIRONMENT:-default}
-PIPELINE=${HOP_PIPELINE}
-WORKFLOW=${HOP_WORKFLOW}
+FORCE_PIPELINE=${HOP_FORCE_PIPELINE}
+FORCE_WORKFLOW=${HOP_FORCE_WORKFLOW}
 
 # deprecated: we always use the "default" run config if pipeline or workflow
 #PIPELINE_RUNCONFIG=${HOP_PIPELINE_RUNCONFIG:-default}
@@ -51,11 +51,11 @@ if [ -n "$FILE" ]; then
     arguments=(${arguments[@]} "--environment=${ENVIRONMENT}")
   fi
   # check if pipeline is specified
-  if [ -n "$PIPELINE" ]; then
+  if [ -n "$FORCE_PIPELINE" ]; then
     arguments=(${arguments[@]} "--pipeline")
   fi
   # check if workflow is specified
-  if [ -n "$WORKFLOW" ]; then
+  if [ -n "$FORCE_WORKFLOW" ]; then
     arguments=(${arguments[@]} "--workflow")
   fi
 
