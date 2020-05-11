@@ -28,32 +28,32 @@
           <children>
             <child>
               <id>feedback_size</id>
-              <value>${environment.HOP_RUNCONFIG_FEEDBACK_SIZE|50000}</value>
+              <value>${environment.HOP_PIPELINE_RUNCONFIG_FEEDBACK_SIZE|50000}</value>
               <type>String</type>
             </child>
             <child>
               <id>rowset_size</id>
-              <value>${environment.HOP_RUNCONFIG_ROWSET_SIZE|10000}</value>
+              <value>${environment.HOP_PIPELINE_RUNCONFIG_ROWSET_SIZE|10000}</value>
               <type>String</type>
             </child>
             <child>
               <id>safe_mode</id>
-              <value>${environment.HOP_RUNCONFIG_SAFE_MODE|'N'}</value>
+              <value>${environment.HOP_PIPELINE_RUNCONFIG_SAFE_MODE|'N'}</value>
               <type>String</type>
             </child>
             <child>
               <id>show_feedback</id>
-              <value>${environment.HOP_RUNCONFIG_SHOW_FEEDBACK|'N'}</value>
+              <value>${environment.HOP_PIPELINE_RUNCONFIG_SHOW_FEEDBACK|'N'}</value>
               <type>String</type>
             </child>
             <child>
               <id>topo_sort</id>
-              <value>${environment.HOP_RUNCONFIG_TOPO_SORT|'N'}</value>
+              <value>${environment.HOP_PIPELINE_RUNCONFIG_TOPO_SORT|'N'}</value>
               <type>String</type>
             </child>
             <child>
               <id>gather_metrics</id>
-              <value>${environment.HOP_RUNCONFIG_GATHER_METRICS|'N'}</value>
+              <value>${environment.HOP_PIPELINE_RUNCONFIG_GATHER_METRICS|'N'}</value>
               <type>String</type>
             </child>
           </children>
@@ -62,7 +62,7 @@
     </child>
     <child>
       <id>description</id>
-      <value>${environment.HOP_RUNCONFIG_DESCRIPTION|'default run configuration'}</value>
+      <value>${environment.HOP_PIPELINE_RUNCONFIG_DESCRIPTION|'default run configuration'}</value>
       <type>String</type>
     </child>
   </children>
