@@ -16,10 +16,10 @@ template_name="default.xml.template"
 key="environment"
 
 # name of the output file of the merge of the environment variables
-# and the template. needs to go to the folder of the user
-outputfile="${BASE_FOLDER}/config/metastore/Pipeline Run Configuration/default.xml"
+# and the template. needs to go to the config directory
+outputfile="${HOP_CONFIG_DIRECTORY}/metastore/Pipeline Run Configuration/default.xml"
 
-mkdir -p "${BASE_FOLDER}/config/metastore/Pipeline Run Configuration"
+mkdir -p "${HOP_CONFIG_DIRECTORY}/metastore/Pipeline Run Configuration"
 
 # run the template merge process
 java -cp "${TOOLS_FOLDER}/*:${TOOLS_FOLDER}/jar/*" com.datamelt.velocity.SimpleReplacer -f="${template_folder}" -t="${template_name}" -k="${key}" -o="${outputfile}"
