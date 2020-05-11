@@ -62,7 +62,7 @@
     </child>
     <child>
       <id>description</id>
-      <value>${environment.HOP_PIPELINE_RUNCONFIG_DESCRIPTION|'default run configuration'}</value>
+      <value>${environment.HOP_PIPELINE_RUNCONFIG_DESCRIPTION|'default pipeline run configuration'}</value>
       <type>String</type>
     </child>
   </children>

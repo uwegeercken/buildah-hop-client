@@ -40,14 +40,15 @@ if [ -n "$FILE" ]; then
   if [ -n "$SYSTEM_PROPERTIES" ]; then
     arguments=(${arguments[@]} "--system-properties=${SYSTEM_PROPERTIES}")
   fi
-  # check if pipeline runconfig is specified
+
+  # check if pipeline or workflow runconfig is specified
   if [ -n "$PIPELINE_RUNCONFIG" ]; then
     arguments=(${arguments[@]} "--runconfig=${PIPELINE_RUNCONFIG}")
-  fi
-  # check if workflow runconfig is specified
-  if [ -n "$WORKFLOW_RUNCONFIG" ]; then
+  # else: check if workflow runconfig is specified
+  elif [ -n "$WORKFLOW_RUNCONFIG" ]; then
     arguments=(${arguments[@]} "--runconfig=${WORKFLOW_RUNCONFIG}")
   fi
+
   # check if environment is specified
   if [ -n "$ENVIRONMENT" ]; then
     arguments=(${arguments[@]} "--environment=${ENVIRONMENT}")

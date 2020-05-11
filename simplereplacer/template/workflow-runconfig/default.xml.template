@@ -37,7 +37,7 @@
     </child>
     <child>
       <id>description</id>
-      <value>${environment.HOP_WORKFLOW_RUNCONFIG_DESCRIPTION}</value>
+      <value>${environment.HOP_WORKFLOW_RUNCONFIG_DESCRIPTION}|'default workflow run configuration'}</value>
       <type>String</type>
     </child>
   </children>
