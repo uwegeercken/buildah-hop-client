@@ -6,9 +6,9 @@
 # - download maven metadata from the folder determined above, to detrmine the package version
 # - variable HOP_LATEST_VERSION will be exported
 # - variable HOP_LATEST_ZIP will be exported
-# - remove metadata files and zip file
+# - remove metadata files
 #
-# uwe geercken - 2020-05-10
+# uwe geercken - 2020-05-13
 #
 
 script_dir="$(dirname "$(readlink -f "$0")")"
