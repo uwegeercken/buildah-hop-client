@@ -16,4 +16,4 @@ The get_latest_hop_package.sh script can also be run on it's own to download the
 
 The images are build with the buildah_hop.sh script and using "buildah" - an alternative and modern way of creating OCI compliant images. These images are compatible with Docker. The image can be downloaded here: https://hub.docker.com/r/uwegeercken/hop
 
-last update: uwe.geercken@web.de - 2020-05-11
+last update: uwe.geercken@web.de - 2020-05-18
