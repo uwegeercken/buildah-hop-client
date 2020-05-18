@@ -1,4 +1,19 @@
 #!/bin/bash
+#
+# script to create an OCI compliant container image using buildah
+#
+# calls another script to download the latest package for hop and unzips it
+# to the script folder.
+#
+# default push destination for the image is a local artifactory/registry
+# specify "remote" as the first argument to push to docker hub. You need to
+# adjust the docker registry details though. Anyway, before running you need
+# to specify the environment variable: image_registry_password
+#
+# finally the downloaded hop package files and the zip file are removed.
+#
+# uwe geercken - 2020-05-18
+#
 
 script_dir="$(dirname "$(readlink -f "$0")")"
 
