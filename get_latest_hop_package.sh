@@ -8,13 +8,17 @@
 # - variable HOP_LATEST_ZIP will be exported
 # - remove metadata files
 #
-# uwe geercken - 2020-05-13
+# uwe geercken - 2020-05-30
 #
 
 script_dir="$(dirname "$(readlink -f "$0")")"
 maven_metadata_xml=latest_maven-metadata.xml
 package_xml=latest_hop_package.xml
 latest_version_file=latest_downloaded_version.info
+
+# force download of zip even if latest was already downloaded.
+# specify argument as -f=yes or -f=no
+forcedownload="${1:3}"
 
 # download url
 url="https://artifactory.project-hop.org/artifactory/hop-snapshots-local/org/hop/hop-assemblies-client"
@@ -54,7 +58,7 @@ then
 fi
 
 # download file if not previously done for the latest version
-if [ "${zipfile_name}" != "${previous_download}" ]
+if [ "${zipfile_name}" != "${previous_download}" ] || [ "${forcedownload}" == "yes" ]
 then
 	# download zip file
 	echo "[INFO] downloading: ${zipfile_name}"

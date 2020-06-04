@@ -18,8 +18,9 @@
 script_dir="$(dirname "$(readlink -f "$0")")"
 
 # where to push the resulting image
-# values: remote or local. default is local
-push_destination=${1:-local}
+# values: -d=remote or -d=local
+# default is local
+push_destination=${1:3}
 
 # name of the script to download the latest hop package
 hop_download_script="get_latest_hop_package.sh"
@@ -149,29 +150,29 @@ buildah rm $container
 echo "[INFO] tagging image: ${image_tag}"
 buildah tag  "${image_name}:${image_version}" "${image_tag}" "${image_tag_latest}"
 
-# push version and push latest to local artifactory
-if [ "${push_destination}" != "remote" ]
+# check if variable for local registry is defined
+if [ -n "${image_registry_password}" ];
 then
-	# check if variable for local registry is defined
-	if [ -z "${image_registry_password}" ];
+	# push version and push latest to local artifactory
+	if [ "${push_destination}" != "remote" ]
 	then
-		echo "error: variable [image_registry_password] is undefined"
-		exit 1
-	fi
-	# login to local artifactory
-	echo "[INFO] login to registry: ${image_registry}"
-	buildah login -u "${image_registry_user}" -p ${image_registry_password} "${image_registry}"
+		# login to local artifactory
+		echo "[INFO] login to registry: ${image_registry}"
+		buildah login -u "${image_registry_user}" -p ${image_registry_password} "${image_registry}"
 
-	echo "[INFO] pushing image to local artifactory: ${image_tag}"
-	buildah push --tls-verify=false "${image_tag}" "docker://${image_tag}"
-	echo "[INFO] pushing image to local artifactory: ${image_tag_latest}"
-	buildah push --tls-verify=false "${image_tag}" "docker://${image_tag_latest}"
+		echo "[INFO] pushing image to local artifactory: ${image_tag}"
+		buildah push --tls-verify=false "${image_tag}" "docker://${image_tag}"
+		echo "[INFO] pushing image to local artifactory: ${image_tag_latest}"
+		buildah push --tls-verify=false "${image_tag}" "docker://${image_tag_latest}"
+	else
+		# push version and push latest to docker hub
+		echo "[INFO] pushing image to docker hub: ${image_dockerhub_tag}"
+		buildah push --tls-verify=false "${image_tag}" "docker://${image_dockerhub_tag}"
+		echo "[INFO] pushing image to docker hub: ${image_dockerhub_tag_latest}"
+		buildah push --tls-verify=false "${image_tag}" "docker://${image_dockerhub_tag_latest}"
+	fi
 else
-	# push version and push latest to docker hub
-	echo "[INFO] pushing image to docker hub: ${image_dockerhub_tag}"
-	buildah push --tls-verify=false "${image_tag}" "docker://${image_dockerhub_tag}"
-	echo "[INFO] pushing image to docker hub: ${image_dockerhub_tag_latest}"
-	buildah push --tls-verify=false "${image_tag}" "docker://${image_dockerhub_tag_latest}"
+	echo "[INFO] cannot push to registry: variable image_registry_password is undefined"
 fi
 
 echo "[INFO] removing hop package folder and files: ${hop_package_folder}"
