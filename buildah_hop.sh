@@ -6,13 +6,13 @@
 # to the script folder.
 #
 # default push destination for the image is a local artifactory/registry
-# specify "remote" as the first argument to push to docker hub. You need to
+# specify "-d=remote" as the first argument to push to docker hub. You need to
 # adjust the docker registry details though. Anyway, before running you need
 # to specify the environment variable: image_registry_password
 #
 # finally the downloaded hop package files and the zip file are removed.
 #
-# uwe geercken - 2020-05-18
+# uwe geercken - 2020-06-07
 #
 
 script_dir="$(dirname "$(readlink -f "$0")")"
@@ -99,7 +99,7 @@ buildah run $container mkdir -p "${application_folder_root}"
 buildah run $container mkdir -p "${application_folder_root}/logs"
 buildah run $container mkdir -p "${application_folder_root}/config/metastore"
 buildah run $container mkdir -p "${application_folder_root}/config/environments"
-buildah run $container mkdir -p "${application_folder_root}/lib/jdbc"
+buildah run $container mkdir -p "${application_folder_root}/jdbc"
 buildah run $container mkdir -p "${tools_folder_root}"
 
 # copy required files
@@ -118,7 +118,7 @@ buildah copy $container "config/metastore" "${application_folder_root}/config/me
 # environments folder is where the environment config is stored
 buildah copy $container "config/environments" "${application_folder_root}/config/environments"
 # copy jdbc drivers to the lib jdbc folder
-buildah copy $container "lib/jdbc" "${application_folder_root}/lib"
+buildah copy $container "jdbc" "${application_folder_root}"
 
 # simple replacer tool
 buildah copy $container simplereplacer/jar "${tools_folder_root}/jar"
